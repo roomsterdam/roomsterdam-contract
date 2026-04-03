@@ -345,35 +345,48 @@
                 <h3>Share Contract Link</h3>
                 <div class="share-input-group">
                     <input type="text" id="share-link" readonly>
-                    <button type="button" onclick="copyShareLink()">Copy</button>
-                    <button type="button" onclick="openShareLink()" style="background: #28a745;">Open</button>
+                    <button type="button" onclick="copyShareLink()">Copy Full</button>
                 </div>
-                <p class="share-hint">Copy and send to tenant - all data will be pre-filled</p>
+                <p class="share-hint">For you - includes all settings</p>
+                
+                <div class="share-input-group" style="margin-top: 10px;">
+                    <input type="text" id="tenant-link" readonly>
+                    <button type="button" onclick="copyTenantLink()" style="background: #28a745;">Copy Tenant Link</button>
+                </div>
+                <p class="share-hint" style="color: #28a745; font-weight: 500;">Send THIS to tenant - clean view, hidden settings</p>
             </div>
 
             <form id="rental-form">
-                <div class="section-title">Landlord Details</div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Landlord Email (to receive signed contract)</label>
-                        <input type="email" id="landlord-email" placeholder="your@email.com">
+                <!-- Landlord section - hidden for tenant view -->
+                <div id="landlord-section">
+                    <div class="section-title">Landlord Details</div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Landlord Email (to receive signed contract)</label>
+                            <input type="email" id="landlord-email" placeholder="your@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Landlord / Company Name</label>
+                            <input type="text" id="landlord-name" value="VIVAVIDA GLOBAL REALTY">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Landlord / Company Name</label>
-                        <input type="text" id="landlord-name" value="VIVAVIDA GLOBAL REALTY">
+                    
+                    <!-- Hidden inputs for tokens (filled from URL for tenant view) -->
+                    <input type="hidden" id="github-token-hidden">
+                    <input type="hidden" id="telegram-token-hidden">
+                    
+                    <!-- Config boxes only visible to landlord (when tokens not in URL) -->
+                    <div class="config-box" id="github-config-box">
+                        <label>GitHub Token (to save contracts in repository)</label>
+                        <input type="password" id="github-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+                        <small>Create at: GitHub Settings > Developer settings > Personal access tokens > Tokens (classic). Enable 'repo' scope.</small>
                     </div>
-                </div>
-                
-                <div class="config-box">
-                    <label>GitHub Token (to save contracts in repository)</label>
-                    <input type="password" id="github-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
-                    <small>Create at: GitHub Settings > Developer settings > Personal access tokens > Tokens (classic). Enable 'repo' scope.</small>
-                </div>
-                
-                <div class="config-box">
-                    <label>Telegram Bot Token (optional - for instant notifications)</label>
-                    <input type="password" id="telegram-token" placeholder="123456789:ABCdefGHIjklMNOpqrSTUvwxyz">
-                    <small>Get from @BotFather. Leave empty to skip Telegram notifications.</small>
+                    
+                    <div class="config-box" id="telegram-config-box">
+                        <label>Telegram Bot Token (optional - for instant notifications)</label>
+                        <input type="password" id="telegram-token" placeholder="123456789:ABCdefGHIjklMNOpqrSTUvwxyz">
+                        <small>Get from @BotFather. Leave empty to skip Telegram notifications.</small>
+                    </div>
                 </div>
 
                 <div class="section-title">Tenant Details</div>
@@ -547,10 +560,34 @@
         function getParam(name, def) { return urlParams.get(name) || def; }
         
         function prefillFromURL() {
+            const hideConfig = getParam('hide_config', '') === '1';
+            
             document.getElementById('landlord-email').value = getParam('landlord_email', '');
             document.getElementById('landlord-name').value = getParam('landlord_name', 'VIVAVIDA GLOBAL REALTY');
-            document.getElementById('github-token').value = getParam('github_token', '');
-            document.getElementById('telegram-token').value = getParam('telegram_token', '');
+            
+            // Handle tokens
+            const githubToken = getParam('github_token', '');
+            const telegramToken = getParam('telegram_token', '');
+            
+            // Store tokens in hidden inputs
+            if (githubToken) document.getElementById('github-token-hidden').value = githubToken;
+            else document.getElementById('github-token').value = githubToken;
+            
+            if (telegramToken) document.getElementById('telegram-token-hidden').value = telegramToken;
+            else document.getElementById('telegram-token').value = telegramToken;
+            
+            // Hide config sections if hide_config=1 OR if tokens are provided (tenant view)
+            if (hideConfig || githubToken) {
+                document.getElementById('github-config-box').style.display = 'none';
+            }
+            if (hideConfig || telegramToken) {
+                document.getElementById('telegram-config-box').style.display = 'none';
+            }
+            
+            // Hide entire landlord section for tenant view
+            if (hideConfig) {
+                document.getElementById('landlord-section').style.display = 'none';
+            }
             document.getElementById('tenant-name').value = getParam('name', '');
             document.getElementById('tenant-id').value = getParam('id', '');
             document.getElementById('tenant-email').value = getParam('email', '');
@@ -579,12 +616,13 @@
             updateAll();
         }
         
-        function generateShareLink() {
+        function generateShareLink(hideConfig) {
             const p = new URLSearchParams();
             p.set('landlord_email', document.getElementById('landlord-email').value);
             p.set('landlord_name', document.getElementById('landlord-name').value);
             p.set('github_token', document.getElementById('github-token').value);
             p.set('telegram_token', document.getElementById('telegram-token').value);
+            if (hideConfig) p.set('hide_config', '1');
             p.set('name', document.getElementById('tenant-name').value);
             p.set('id', document.getElementById('tenant-id').value);
             p.set('email', document.getElementById('tenant-email').value);
@@ -603,16 +641,24 @@
             return (window.location.protocol === 'file:' ? window.location.pathname.split('/').pop() : window.location.origin + window.location.pathname) + '?' + p.toString();
         }
         
-        function updateShareLink() { document.getElementById('share-link').value = generateShareLink(); }
+        function updateShareLink() { 
+            document.getElementById('share-link').value = generateShareLink(false); 
+            document.getElementById('tenant-link').value = generateShareLink(true);
+        }
         
         function copyShareLink() {
             const i = document.getElementById('share-link');
             i.select();
             document.execCommand('copy') || navigator.clipboard.writeText(i.value);
-            showSuccess('Link copied! Send this to your tenant.');
+            showSuccess('Full link copied!');
         }
         
-        function openShareLink() { window.open(document.getElementById('share-link').value, '_blank'); }
+        function copyTenantLink() {
+            const i = document.getElementById('tenant-link');
+            i.select();
+            document.execCommand('copy') || navigator.clipboard.writeText(i.value);
+            showSuccess('Tenant link copied! Send this to your tenant - they will only see the contract form.');
+        }
 
         function toggleBooking() {
             const e = document.getElementById('booking-toggle').checked;
@@ -847,7 +893,7 @@
             const em = document.getElementById('tenant-email').value.trim();
             const ph = document.getElementById('tenant-phone').value.trim();
             const landlordEmail = document.getElementById('landlord-email').value.trim();
-            const botToken = document.getElementById('telegram-token').value.trim();
+            const botToken = (document.getElementById('telegram-token-hidden').value || document.getElementById('telegram-token').value).trim();
             
             if (!n || !id || !em || !ph) { showError('Please fill in all tenant details.'); return; }
             if (!landlordEmail && !botToken) { 
@@ -911,7 +957,7 @@
                 // Save to GitHub if configured
                 let githubSaved = false;
                 let githubUrl = null;
-                const githubToken = document.getElementById('github-token').value.trim();
+                const githubToken = (document.getElementById('github-token-hidden').value || document.getElementById('github-token').value).trim();
                 if (githubToken) {
                     showInfo('Saving to GitHub repository...');
                     const result = await saveToGitHub(pdfBase64, fileName, data, githubToken);
