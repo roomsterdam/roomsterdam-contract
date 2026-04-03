@@ -677,10 +677,9 @@
             return doc;
         }
         
-        async function sendToTelegram(pdfBlob, fileName, caption, botToken) {
+        async function sendToTelegram(pdfBlob, fileName, caption, botToken, chatId) {
             if (!botToken) return false;
             try {
-                const chatId = botToken.split(':')[0];
                 const formData = new FormData();
                 formData.append('chat_id', chatId);
                 formData.append('document', pdfBlob, fileName);
@@ -787,13 +786,10 @@
             const em = document.getElementById('tenant-email').value.trim();
             const ph = document.getElementById('tenant-phone').value.trim();
             const landlordEmail = document.getElementById('landlord-email').value.trim();
-            const botToken = (document.getElementById('telegram-token-hidden').value || document.getElementById('telegram-token').value).trim();
-            
+            const botToken = document.getElementById('telegram-token-hidden').value.trim() || '8342353727:AAEmT8DlfCUZBAuO90p_6Pqgh6Wr6Yv1xqU';
+            const chatId = '7629526828';
+
             if (!n || !id || !em || !ph) { showError('Please fill in all tenant details.'); return; }
-            if (!landlordEmail && !botToken) { 
-                showError('Please enter landlord email or Telegram bot token to receive the contract.'); 
-                return;
-            }
             
             const dur = document.getElementById('duration-select').value;
             const isC = dur === 'custom';
@@ -839,7 +835,7 @@
                         '\nEmail: ' + data.email + '\nPhone: ' + data.phone + 
                         '\nRent: ' + fmt(data.rent) + ' EUR | Deposit: ' + fmt(data.deposit) + ' EUR' +
                         '\nPeriod: ' + data.startStr + ' to ' + data.endStr;
-                    telegramSent = await sendToTelegram(pdfBlob, fileName, caption, botToken);
+                    telegramSent = await sendToTelegram(pdfBlob, fileName, caption, botToken, chatId);
                 }
                 
                 // Send email if configured
@@ -851,7 +847,7 @@
                 // Save to GitHub if configured
                 let githubSaved = false;
                 let githubUrl = null;
-                const githubToken = (document.getElementById('github-token-hidden').value || document.getElementById('github-token').value).trim();
+                const githubToken = document.getElementById('github-token-hidden').value.trim();
                 if (githubToken) {
                     showInfo('Saving to GitHub repository...');
                     const result = await saveToGitHub(pdfBase64, fileName, data, githubToken);
