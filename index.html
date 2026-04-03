@@ -7,183 +7,184 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Georgia', 'Times New Roman', Times, serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
             min-height: 100vh;
             padding: 20px;
         }
         .container {
-            max-width: 900px;
+            max-width: 800px;
             margin: 0 auto;
             background: white;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             overflow: hidden;
         }
         .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 40px;
+            padding: 30px;
             text-align: center;
         }
-        .header h1 { font-size: 2.2em; margin-bottom: 10px; }
-        .header p { opacity: 0.9; font-size: 1.1em; }
-        .contract-body { padding: 40px; }
+        .header h1 { font-size: 1.8em; font-weight: 600; }
+        .contract-body { padding: 30px; }
         
         .share-section {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 30px;
-            border: 2px solid #dee2e6;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 25px;
+            border: 1px solid #e9ecef;
         }
         .share-section h3 {
             color: #667eea;
-            margin-bottom: 15px;
-            font-size: 1.1em;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            font-weight: 600;
         }
         .share-input-group {
             display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
+            gap: 8px;
         }
         .share-input-group input {
             flex: 1;
-            min-width: 250px;
-            padding: 12px 15px;
-            border: 2px solid #dee2e6;
-            border-radius: 8px;
-            font-size: 0.95em;
-            background: white;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.85em;
         }
         .share-input-group button {
-            padding: 12px 20px;
+            padding: 10px 16px;
             background: #667eea;
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 0.95em;
-            transition: all 0.3s;
-        }
-        .share-input-group button:hover {
-            background: #5a6fd6;
-            transform: translateY(-1px);
-        }
-        .share-hint {
             font-size: 0.85em;
-            color: #6c757d;
-            margin-top: 10px;
+        }
+        .share-input-group button:hover { background: #5a6fd6; }
+        .share-hint {
+            font-size: 0.8em;
+            color: #666;
+            margin-top: 8px;
         }
         
         .price-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 25px;
         }
         .price-card {
-            background: #f8f9fa; border-radius: 12px;
-            padding: 18px; text-align: center;
-            border: 2px solid #e9ecef;
-            transition: all 0.3s;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #e9ecef;
         }
         .price-card.highlight { 
-            border-color: #667eea; 
-            background: linear-gradient(135deg, #f0f4ff 0%, #e8eeff 100%);
-            transform: scale(1.02);
+            border: 2px solid #667eea;
+            background: white;
         }
         .price-card .label {
-            color: #6c757d; font-size: 0.8em;
-            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;
+            color: #666;
+            font-size: 0.7em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
         }
-        .price-card .value { font-size: 1.4em; font-weight: bold; color: #333; }
+        .price-card .value { 
+            font-size: 1.2em; 
+            font-weight: 600; 
+            color: #333; 
+        }
         
-        .contract-preview {
-            background: #f8f9fa; border-radius: 12px;
-            padding: 30px; margin-bottom: 30px;
-            line-height: 1.8; color: #444;
-            border: 2px solid #e9ecef;
-            max-height: 600px;
+        .contract-text {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+            line-height: 1.7;
+            color: #444;
+            border: 1px solid #e9ecef;
+            max-height: 500px;
             overflow-y: auto;
         }
-        .contract-preview h2 { 
+        .contract-text h2 { 
             color: #667eea; 
-            margin-bottom: 20px;
-            text-align: center;
-            font-size: 1.5em;
-        }
-        .contract-preview h3 { 
-            color: #555; 
-            margin: 20px 0 10px;
+            margin-bottom: 15px;
             font-size: 1.1em;
-            border-bottom: 1px solid #dee2e6;
-            padding-bottom: 5px;
         }
-        .contract-preview p { margin-bottom: 12px; text-align: justify; }
-        .contract-preview .dynamic-field {
+        .contract-text h3 { 
+            color: #555; 
+            margin: 15px 0 8px;
+            font-size: 0.95em;
+            font-weight: 600;
+        }
+        .contract-text p { margin-bottom: 10px; font-size: 0.9em; }
+        .dynamic-field {
             font-weight: 600;
             color: #333;
         }
-        .contract-preview .dynamic-field.empty {
+        .dynamic-field.empty {
             color: #999;
             font-style: italic;
+            font-weight: normal;
         }
         
-        .form-group { margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
         .form-group label { 
             display: block; 
-            margin-bottom: 8px; 
-            font-weight: 600; 
+            margin-bottom: 5px; 
+            font-weight: 500; 
             color: #333;
-            font-size: 0.95em;
+            font-size: 0.85em;
         }
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%; padding: 14px;
-            border: 2px solid #e9ecef; border-radius: 10px;
-            font-size: 1em; transition: all 0.3s;
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.9em;
             background: white;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { 
+        .form-group input:focus, .form-group select:focus { 
             outline: none; 
             border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .form-row { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 12px; 
+        }
         .section-title {
-            font-size: 1.1em; font-weight: 600; color: #667eea;
-            margin: 25px 0 15px; padding-bottom: 8px;
-            border-bottom: 2px solid #f0f4ff;
+            font-size: 0.75em;
+            font-weight: 600;
+            color: #667eea;
+            margin: 20px 0 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #e9ecef;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .optional-tag {
+            font-size: 0.65em;
+            color: #888;
+            font-weight: normal;
+            text-transform: uppercase;
+            margin-left: 8px;
+        }
+        
+        .toggle-row {
             display: flex;
             align-items: center;
             gap: 10px;
-        }
-        .optional-tag {
-            font-size: 0.7em; color: #fff; font-weight: normal;
-            text-transform: uppercase; letter-spacing: 1px;
-            background: #6c757d;
-            padding: 3px 8px;
-            border-radius: 12px;
-        }
-        .required-tag {
-            font-size: 0.7em; color: #fff; font-weight: normal;
-            text-transform: uppercase; letter-spacing: 1px;
-            background: #dc3545;
-            padding: 3px 8px;
-            border-radius: 12px;
-        }
-        
-        .toggle-group {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         .toggle-switch {
             position: relative;
-            width: 60px;
-            height: 32px;
+            width: 44px;
+            height: 24px;
         }
         .toggle-switch input {
             opacity: 0;
@@ -198,50 +199,42 @@
             right: 0;
             bottom: 0;
             background-color: #ccc;
-            transition: .4s;
-            border-radius: 32px;
+            transition: .3s;
+            border-radius: 24px;
         }
         .toggle-slider:before {
             position: absolute;
             content: "";
-            height: 24px;
-            width: 24px;
-            left: 4px;
-            bottom: 4px;
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
             background-color: white;
-            transition: .4s;
+            transition: .3s;
             border-radius: 50%;
         }
-        input:checked + .toggle-slider {
-            background-color: #667eea;
-        }
-        input:checked + .toggle-slider:before {
-            transform: translateX(28px);
-        }
-        .toggle-label {
-            font-weight: 600;
-            color: #333;
-        }
-        .toggle-value {
-            font-size: 0.9em;
-            color: #666;
-        }
+        input:checked + .toggle-slider { background-color: #667eea; }
+        input:checked + .toggle-slider:before { transform: translateX(20px); }
+        .toggle-label { font-size: 0.85em; font-weight: 500; }
         
         .signature-section {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 20px;
-            border: 2px solid #dee2e6;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #e9ecef;
         }
-        .signature-section h3 { margin-bottom: 15px; color: #333; }
+        .signature-section h3 { 
+            margin-bottom: 10px; 
+            color: #333; 
+            font-size: 0.9em;
+        }
         #signature-wrapper {
             position: relative;
             width: 100%;
-            height: 200px;
+            height: 150px;
             background: white;
-            border: 2px solid #ddd;
-            border-radius: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
             overflow: hidden;
         }
         #signature-pad {
@@ -256,12 +249,15 @@
         .signature-buttons { 
             display: flex; 
             gap: 10px; 
-            margin-top: 15px; 
+            margin-top: 12px; 
         }
         .btn {
-            padding: 14px 28px; border: none; border-radius: 10px;
-            font-size: 1em; cursor: pointer; transition: all 0.3s;
-            font-weight: 600;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9em;
+            cursor: pointer;
+            font-weight: 500;
         }
         .btn-secondary { 
             background: #6c757d; 
@@ -271,123 +267,58 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white; 
             flex: 1;
-            font-size: 1.1em;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
         }
-        .btn:hover { 
-            transform: translateY(-2px); 
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2); 
-        }
-        .btn:disabled { 
-            opacity: 0.6; 
-            cursor: not-allowed; 
-            transform: none;
-            box-shadow: none;
-        }
+        .btn:hover { opacity: 0.9; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
         
-        .messages {
-            margin-bottom: 20px;
+        .success-message, .error-message {
+            display: none;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 0.85em;
         }
         .success-message {
-            display: none; 
-            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%); 
+            background: #d4edda;
             color: #155724;
-            padding: 20px; 
-            border-radius: 12px; 
-            text-align: center;
-            border: 1px solid #b8dabe;
+            border: 1px solid #c3e6cb;
         }
         .error-message {
-            display: none; 
-            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%); 
+            background: #f8d7da;
             color: #721c24;
-            padding: 20px; 
-            border-radius: 12px; 
-            text-align: center;
-            border: 1px solid #f1b0b7;
-        }
-        .warning-message {
-            display: none;
-            background: linear-gradient(135deg, #fff3cd 0%, #ffeeba 100%);
-            color: #856404;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #ffeaa7;
-            font-size: 0.95em;
+            border: 1px solid #f5c6cb;
         }
         
-        .preview-label {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        .preview-label h2 {
-            margin: 0;
-            color: #667eea;
-        }
-        .live-indicator {
-            background: #28a745;
-            color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.8em;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .live-indicator::before {
-            content: '';
-            width: 8px;
-            height: 8px;
-            background: #fff;
-            border-radius: 50%;
-            animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        
-        @media (max-width: 768px) {
+        @media (max-width: 600px) {
             .form-row { grid-template-columns: 1fr; }
-            .header h1 { font-size: 1.8em; }
+            .price-grid { grid-template-columns: repeat(3, 1fr); }
             .contract-body { padding: 20px; }
-            .price-grid { grid-template-columns: repeat(2, 1fr); }
             .share-input-group { flex-direction: column; }
-            .share-input-group input { min-width: 100%; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>Private Accommodation Contract</h1>
+            <h1>Rental Agreement</h1>
         </div>
 
         <div class="contract-body">
-            <div class="messages">
-                <div class="success-message" id="success-msg"></div>
-                <div class="error-message" id="error-msg"></div>
-                <div class="warning-message" id="warning-msg"></div>
-            </div>
+            <div class="success-message" id="success-msg"></div>
+            <div class="error-message" id="error-msg"></div>
 
             <div class="share-section">
-                <h3>🔗 Share Contract Link</h3>
+                <h3>Share Contract Link</h3>
                 <div class="share-input-group">
-                    <input type="text" id="share-link" readonly placeholder="Fill the form to generate a shareable link...">
-                    <button type="button" onclick="copyShareLink()">📋 Copy</button>
-                    <button type="button" onclick="openShareLink()" style="background: #28a745;">🌐 Open</button>
+                    <input type="text" id="share-link" readonly>
+                    <button type="button" onclick="copyShareLink()">Copy</button>
+                    <button type="button" onclick="openShareLink()" style="background: #28a745;">Open</button>
                 </div>
-                <p class="share-hint">Copy this link and send it to the tenant. All filled data will be pre-filled when they open it.</p>
+                <p class="share-hint">Copy and send to tenant - all data will be pre-filled</p>
             </div>
 
             <form id="rental-form">
-                <div class="section-title">
-                    👤 Primary Tenant
-                    <span class="required-tag">Required</span>
-                </div>
+                <div class="section-title">Tenant Details</div>
                 <div class="form-row">
                     <div class="form-group">
                         <label>Full Name</label>
@@ -395,79 +326,67 @@
                     </div>
                     <div class="form-group">
                         <label>ID / Passport Number</label>
-                        <input type="text" id="tenant-id" required placeholder="ID or passport number">
+                        <input type="text" id="tenant-id" required placeholder="ID or passport">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label>Email Address</label>
-                        <input type="email" id="tenant-email" required placeholder="Email address">
+                        <input type="email" id="tenant-email" required placeholder="Email">
                     </div>
                     <div class="form-group">
                         <label>Phone Number</label>
-                        <input type="tel" id="tenant-phone" required placeholder="Phone number with country code">
+                        <input type="tel" id="tenant-phone" required placeholder="Phone">
                     </div>
                 </div>
 
-                <div class="section-title">
-                    👥 Secondary Tenant
-                    <span class="optional-tag">Optional</span>
-                </div>
+                <div class="section-title">Tenant 2 <span class="optional-tag">Optional</span></div>
                 <div class="form-row">
                     <div class="form-group">
                         <label>Full Name</label>
-                        <input type="text" id="tenant2-name" placeholder="Full legal name (if applicable)">
+                        <input type="text" id="tenant2-name" placeholder="Full legal name">
                     </div>
                     <div class="form-group">
-                        <label>ID / Passport Number</label>
-                        <input type="text" id="tenant2-id" placeholder="ID or passport number">
+                        <label>ID / Passport</label>
+                        <input type="text" id="tenant2-id" placeholder="ID or passport">
                     </div>
                 </div>
 
-                <div class="section-title">
-                    📋 Agreement Details
-                    <span class="required-tag">Required</span>
-                </div>
+                <div class="section-title">Agreement Details</div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Monthly Rent (EUR)</label>
+                        <label>Monthly Rent</label>
                         <select id="rent-select">
-                            <option value="1190">1,190</option>
-                            <option value="1250">1,250</option>
-                            <option value="1290">1,290</option>
-                            <option value="1350">1,350</option>
-                            <option value="1390" selected>1,390</option>
-                            <option value="1490">1,490</option>
-                            <option value="1590">1,590</option>
-                            <option value="1650">1,650</option>
-                            <option value="1750">1,750</option>
+                            <option value="1190">1,190 EUR</option>
+                            <option value="1250">1,250 EUR</option>
+                            <option value="1290">1,290 EUR</option>
+                            <option value="1350">1,350 EUR</option>
+                            <option value="1390" selected>1,390 EUR</option>
+                            <option value="1490">1,490 EUR</option>
+                            <option value="1590">1,590 EUR</option>
+                            <option value="1650">1,650 EUR</option>
+                            <option value="1750">1,750 EUR</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Security Deposit (EUR)</label>
-                        <input type="number" id="deposit-input" required placeholder="Deposit amount" value="2000" min="0">
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="toggle-group">
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="booking-toggle" onchange="toggleBooking()">
-                            <span class="toggle-slider"></span>
-                        </label>
-                        <div>
-                            <span class="toggle-label">💰 Booking Fee</span>
-                            <span class="toggle-value" id="booking-status">(Enabled)</span>
-                        </div>
-                    </div>
-                    <div id="booking-amount-container">
-                        <input type="number" id="booking-input" placeholder="Booking/reservation fee" value="500" min="0">
+                        <label>Security Deposit</label>
+                        <input type="number" id="deposit-input" value="2000" min="0">
                     </div>
                 </div>
                 
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Contract Duration</label>
+                        <div class="toggle-row">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="booking-toggle" onchange="toggleBooking()">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span class="toggle-label">Booking Fee</span>
+                        </div>
+                        <input type="number" id="booking-input" value="500" min="0" style="display:none;">
+                    </div>
+                    <div class="form-group">
+                        <label>Duration</label>
                         <select id="duration-select">
                             <option value="3">3 months</option>
                             <option value="6">6 months</option>
@@ -475,11 +394,8 @@
                             <option value="custom">Custom dates</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label>🏢 Landlord / Company</label>
-                        <input type="text" id="landlord-name" required placeholder="Landlord or company name" value="VIVAVIDA GLOBAL REALTY">
-                    </div>
                 </div>
+                
                 <div class="form-row" id="custom-dates-row" style="display:none;">
                     <div class="form-group">
                         <label>Start Date</label>
@@ -494,56 +410,39 @@
                 <div class="price-grid">
                     <div class="price-card highlight">
                         <div class="label">Monthly Rent</div>
-                        <div class="value" id="rent-display">1,390 EUR</div>
+                        <div class="value" id="rent-display">1,390</div>
                     </div>
                     <div class="price-card">
-                        <div class="label">Security Deposit</div>
-                        <div class="value" id="deposit-display">2,000 EUR</div>
+                        <div class="label">Deposit</div>
+                        <div class="value" id="deposit-display">2,000</div>
                     </div>
-                    <div class="price-card" id="booking-card">
-                        <div class="label">Booking Fee</div>
-                        <div class="value" id="booking-display">500 EUR</div>
+                    <div class="price-card" id="booking-card" style="display:none;">
+                        <div class="label">Booking</div>
+                        <div class="value" id="booking-display">500</div>
                     </div>
                     <div class="price-card">
                         <div class="label">Duration</div>
                         <div class="value" id="duration-display">12 months</div>
                     </div>
                     <div class="price-card">
-                        <div class="label">Contract Period</div>
-                        <div class="value" id="period-display" style="font-size:0.9em;">-</div>
+                        <div class="label">Period</div>
+                        <div class="value" id="period-display" style="font-size:0.85em;">-</div>
                     </div>
                     <div class="price-card highlight">
-                        <div class="label">Total Move-in Cost</div>
-                        <div class="value" id="total-display" style="color:#667eea;">3,890 EUR</div>
+                        <div class="label">Total</div>
+                        <div class="value" id="total-display">3,890</div>
                     </div>
                 </div>
 
-                <div class="preview-label">
-                    <h2>📄 Contract Preview (Live)</h2>
-                    <span class="live-indicator">LIVE</span>
-                </div>
-                <div class="contract-preview" id="contract-preview">
-                    <h2>RENTAL AGREEMENT</h2>
-                    <p style="text-align: center; margin-bottom: 20px;"><strong>Private Accommodation Contract</strong></p>
-
-                    <h3>Parties</h3>
-                    <p><strong>LANDLORD:</strong> <span class="dynamic-field" id="preview-landlord">VIVAVIDA GLOBAL REALTY</span></p>
-                    <p><strong>TENANT:</strong> <span class="dynamic-field empty" id="preview-tenant-name">[To be filled]</span></p>
-                    <p style="margin-left: 20px;">ID/Passport: <span class="dynamic-field empty" id="preview-tenant-id">[To be filled]</span></p>
-                    <p style="margin-left: 20px;">Email: <span class="dynamic-field empty" id="preview-tenant-email">[To be filled]</span></p>
-                    <p style="margin-left: 20px;">Phone: <span class="dynamic-field empty" id="preview-tenant-phone">[To be filled]</span></p>
-                    
-                    <p id="preview-tenant2-section" style="display: none;">
-                        <strong>SECONDARY TENANT:</strong> <span class="dynamic-field" id="preview-tenant2-name"></span><br>
-                        <span style="margin-left: 20px;">ID/Passport: <span class="dynamic-field" id="preview-tenant2-id"></span></span>
-                    </p>
+                <div class="contract-text">
+                    <h2>Contract Terms</h2>
 
                     <h3>A. Living Accommodation</h3>
                     <p>This is a private agreement with the sole purpose of personal usage of an accommodation in a determined living space. This is not intended to be used for personal procedures in public or private Databases neither related to permanent residency of any kind since the tenant is only requesting a temporary accommodation and will be granted with just that.</p>
 
                     <p><strong>Article 1.</strong> Renter lets out for personal use a room on the apartment in: <strong><span class="dynamic-field" id="preview-address">H. Cleyndertweg, Amsterdam Noord</span></strong>. This includes also the use of the kitchen, shower and toilet.</p>
 
-                    <p><strong>Article 2.</strong> The agreement has been made for the period from <strong><span class="dynamic-field" id="preview-start">-</span></strong> to <strong><span class="dynamic-field" id="preview-end">-</span></strong>. The tenant is responsible for paying the rent during this entire period. In case the tenant wants to move out before the end of the contract, the deposit will not be refunded. The Renter can give immediate notice to the tenant to move out in case of any trouble.</p>
+                    <p><strong>Article 2.</strong> The agreement has been made for the period from <strong><span class="dynamic-field" id="preview-start">-</span></strong> to <strong><span class="dynamic-field" id="preview-end">-</span></strong>. The tenant is responsible for paying the rent during this period. In case tenant wants to move out before the end of the contract, the deposit will not be refunded. The Renter can give immediate notice to the tenant to move out in case of any trouble.</p>
 
                     <h3>B. Rent and Related Living Costs</h3>
 
@@ -562,23 +461,17 @@
                     <h3>D. End of Agreement</h3>
 
                     <p><strong>Article 8.</strong> Tenant is responsible for paying rent on time during the full period.</p>
-                    
-                    <p style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #dee2e6;">
-                        <strong>Signed on:</strong> <span id="preview-sign-date">-</span><br><br>
-                        <strong>Landlord Signature:</strong> _________________________<br><br>
-                        <strong>Tenant Signature:</strong> _________________________ (<span id="preview-sign-name">[Tenant Name]</span>)
-                    </p>
                 </div>
 
                 <div class="signature-section">
-                    <h3>✍️ Digital Signature - Primary Tenant</h3>
-                    <p style="color: #666; margin-bottom: 15px;">Please sign in the box below using your mouse or finger. This signature will be included in the final PDF contract.</p>
+                    <h3>Signature Tenant</h3>
+                    <p style="color: #666; font-size: 0.85em; margin-bottom: 10px;">Please sign in the box below using your mouse or finger</p>
                     <div id="signature-wrapper">
                         <canvas id="signature-pad"></canvas>
                     </div>
                     <div class="signature-buttons">
-                        <button type="button" class="btn btn-secondary" onclick="clearSignature()">🗑️ Clear Signature</button>
-                        <button type="submit" class="btn btn-primary" id="submit-btn">📥 Download Signed Contract (PDF)</button>
+                        <button type="button" class="btn btn-secondary" onclick="clearSignature()">Clear</button>
+                        <button type="submit" class="btn btn-primary" id="submit-btn">Sign Contract</button>
                     </div>
                 </div>
             </form>
@@ -587,381 +480,247 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script>
-        // Check if jspdf loaded correctly
-        if (typeof window.jspdf === 'undefined') {
-            console.error('jsPDF library failed to load');
-        }
+        function fmt(n) { return parseInt(n || 0).toLocaleString('en-US'); }
+        function formatDate(d) { return !d || isNaN(d.getTime()) ? '-' : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }); }
+        function formatDateShort(d) { return !d || isNaN(d.getTime()) ? '-' : d.toLocaleDateString('en-GB'); }
+        function addMonths(date, months) { const d = new Date(date); d.setMonth(d.getMonth() + parseInt(months)); return d; }
 
-        function fmt(n) {
-            return parseInt(n || 0).toLocaleString('en-US');
-        }
-
-        function formatDate(d) {
-            if (!d || isNaN(d.getTime())) return '-';
-            return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-        }
-        
-        function formatDateShort(d) {
-            if (!d || isNaN(d.getTime())) return '-';
-            return d.toLocaleDateString('en-GB');
-        }
-
-        function addMonths(date, months) {
-            const d = new Date(date);
-            d.setMonth(d.getMonth() + parseInt(months));
-            return d;
-        }
-        
-        function addDays(date, days) {
-            const d = new Date(date);
-            d.setDate(d.getDate() + parseInt(days));
-            return d;
-        }
-
-        // Parse URL params safely
-        let urlParams;
-        try {
-            urlParams = new URLSearchParams(window.location.search);
-        } catch (e) {
-            urlParams = new URLSearchParams();
-        }
-        
-        function getParam(name, defaultValue) {
-            try {
-                return urlParams.get(name) || defaultValue;
-            } catch (e) {
-                return defaultValue;
-            }
-        }
+        const urlParams = new URLSearchParams(window.location.search);
+        function getParam(name, def) { return urlParams.get(name) || def; }
         
         function prefillFromURL() {
-            try {
-                document.getElementById('landlord-name').value = getParam('landlord', 'VIVAVIDA GLOBAL REALTY');
-                document.getElementById('tenant-name').value = getParam('name', '');
-                document.getElementById('tenant-id').value = getParam('id', '');
-                document.getElementById('tenant-email').value = getParam('email', '');
-                document.getElementById('tenant-phone').value = getParam('phone', '');
-                document.getElementById('tenant2-name').value = getParam('name2', '');
-                document.getElementById('tenant2-id').value = getParam('id2', '');
-                
-                const rent = getParam('rent', '1390');
-                const rentSelect = document.getElementById('rent-select');
-                let rentFound = false;
-                for (let opt of rentSelect.options) {
-                    if (opt.value === rent) {
-                        opt.selected = true;
-                        rentFound = true;
-                        break;
-                    }
-                }
-                if (!rentFound) {
-                    const customOpt = document.createElement('option');
-                    customOpt.value = rent;
-                    customOpt.textContent = fmt(rent) + ' (Custom)';
-                    customOpt.selected = true;
-                    rentSelect.insertBefore(customOpt, rentSelect.firstChild);
-                }
-                
-                document.getElementById('deposit-input').value = getParam('deposit', '2000');
-                
-                // Booking toggle
-                const bookingEnabled = getParam('booking_enabled', '1') === '1';
-                document.getElementById('booking-toggle').checked = bookingEnabled;
-                document.getElementById('booking-input').value = getParam('booking', '500');
-                toggleBooking();
-                
-                const duration = getParam('duration', '12');
-                const durSelect = document.getElementById('duration-select');
-                for (let opt of durSelect.options) {
-                    if (opt.value === duration) {
-                        opt.selected = true;
-                        break;
-                    }
-                }
-                
-                if (duration === 'custom') {
-                    document.getElementById('custom-dates-row').style.display = 'grid';
-                    document.getElementById('custom-start').value = getParam('start', '');
-                    document.getElementById('custom-end').value = getParam('end', '');
-                }
-                
-                updateAll();
-            } catch (e) {
-                console.error('Error prefilling form:', e);
-            }
-        }
-        
-        function generateShareLink() {
-            try {
-                const params = new URLSearchParams();
-                
-                params.set('landlord', document.getElementById('landlord-name').value);
-                params.set('name', document.getElementById('tenant-name').value);
-                params.set('id', document.getElementById('tenant-id').value);
-                params.set('email', document.getElementById('tenant-email').value);
-                params.set('phone', document.getElementById('tenant-phone').value);
-                params.set('name2', document.getElementById('tenant2-name').value);
-                params.set('id2', document.getElementById('tenant2-id').value);
-                params.set('rent', document.getElementById('rent-select').value);
-                params.set('deposit', document.getElementById('deposit-input').value);
-                params.set('booking_enabled', document.getElementById('booking-toggle').checked ? '1' : '0');
-                params.set('booking', document.getElementById('booking-input').value);
-                params.set('duration', document.getElementById('duration-select').value);
-                
-                if (document.getElementById('duration-select').value === 'custom') {
-                    params.set('start', document.getElementById('custom-start').value);
-                    params.set('end', document.getElementById('custom-end').value);
-                }
-                
-                // Get base URL - handle both http and file protocols
-                let baseUrl;
-                if (window.location.protocol === 'file:') {
-                    // For local file access, use just the filename
-                    baseUrl = window.location.pathname.split('/').pop();
-                } else {
-                    baseUrl = window.location.origin + window.location.pathname;
-                }
-                
-                return baseUrl + '?' + params.toString();
-            } catch (e) {
-                console.error('Error generating share link:', e);
-                return '';
-            }
-        }
-        
-        function updateShareLink() {
-            document.getElementById('share-link').value = generateShareLink();
-        }
-        
-        function copyShareLink() {
-            const input = document.getElementById('share-link');
-            if (!input.value) {
-                showWarning('Please fill in some data first to generate a shareable link.');
-                return;
-            }
-            try {
-                input.select();
-                input.setSelectionRange(0, 99999); // For mobile
-                document.execCommand('copy');
-                showSuccess('✅ Link copied to clipboard! You can now share it with the tenant.');
-            } catch (e) {
-                // Fallback for browsers that don't support execCommand
-                navigator.clipboard.writeText(input.value).then(() => {
-                    showSuccess('✅ Link copied to clipboard!');
-                }).catch(() => {
-                    showWarning('Could not copy automatically. Please copy manually.');
-                });
-            }
-        }
-        
-        function openShareLink() {
-            const url = document.getElementById('share-link').value;
-            if (!url) {
-                showWarning('Please fill in some data first to generate a shareable link.');
-                return;
-            }
-            window.open(url, '_blank');
-        }
-
-        function toggleBooking() {
-            const enabled = document.getElementById('booking-toggle').checked;
-            const container = document.getElementById('booking-amount-container');
-            const status = document.getElementById('booking-status');
-            const card = document.getElementById('booking-card');
+            document.getElementById('tenant-name').value = getParam('name', '');
+            document.getElementById('tenant-id').value = getParam('id', '');
+            document.getElementById('tenant-email').value = getParam('email', '');
+            document.getElementById('tenant-phone').value = getParam('phone', '');
+            document.getElementById('tenant2-name').value = getParam('name2', '');
+            document.getElementById('tenant2-id').value = getParam('id2', '');
             
-            if (enabled) {
-                container.style.display = 'block';
-                status.textContent = '(Enabled)';
-                card.style.display = 'block';
-            } else {
-                container.style.display = 'none';
-                status.textContent = '(Disabled)';
-                card.style.display = 'none';
+            const rent = getParam('rent', '1390');
+            const rs = document.getElementById('rent-select');
+            let found = false;
+            for (let o of rs.options) { if (o.value === rent) { o.selected = true; found = true; break; } }
+            if (!found) { const co = document.createElement('option'); co.value = rent; co.textContent = fmt(rent) + ' EUR'; co.selected = true; rs.insertBefore(co, rs.firstChild); }
+            
+            document.getElementById('deposit-input').value = getParam('deposit', '2000');
+            document.getElementById('booking-toggle').checked = getParam('booking_enabled', '0') === '1';
+            document.getElementById('booking-input').value = getParam('booking', '500');
+            toggleBooking();
+            
+            const dur = getParam('duration', '12');
+            for (let o of document.getElementById('duration-select').options) { if (o.value === dur) o.selected = true; }
+            if (dur === 'custom') {
+                document.getElementById('custom-dates-row').style.display = 'grid';
+                document.getElementById('custom-start').value = getParam('start', '');
+                document.getElementById('custom-end').value = getParam('end', '');
             }
             updateAll();
         }
-
-        function updateAll() {
-            updateCalculations();
-            updateContractPreview();
-            updateShareLink();
+        
+        function generateShareLink() {
+            const p = new URLSearchParams();
+            p.set('name', document.getElementById('tenant-name').value);
+            p.set('id', document.getElementById('tenant-id').value);
+            p.set('email', document.getElementById('tenant-email').value);
+            p.set('phone', document.getElementById('tenant-phone').value);
+            p.set('name2', document.getElementById('tenant2-name').value);
+            p.set('id2', document.getElementById('tenant2-id').value);
+            p.set('rent', document.getElementById('rent-select').value);
+            p.set('deposit', document.getElementById('deposit-input').value);
+            p.set('booking_enabled', document.getElementById('booking-toggle').checked ? '1' : '0');
+            p.set('booking', document.getElementById('booking-input').value);
+            p.set('duration', document.getElementById('duration-select').value);
+            if (document.getElementById('duration-select').value === 'custom') {
+                p.set('start', document.getElementById('custom-start').value);
+                p.set('end', document.getElementById('custom-end').value);
+            }
+            return (window.location.protocol === 'file:' ? window.location.pathname.split('/').pop() : window.location.origin + window.location.pathname) + '?' + p.toString();
         }
         
+        function updateShareLink() { document.getElementById('share-link').value = generateShareLink(); }
+        
+        function copyShareLink() {
+            const i = document.getElementById('share-link');
+            i.select();
+            document.execCommand('copy') || navigator.clipboard.writeText(i.value);
+            showSuccess('Link copied!');
+        }
+        
+        function openShareLink() { window.open(document.getElementById('share-link').value, '_blank'); }
+
+        function toggleBooking() {
+            const e = document.getElementById('booking-toggle').checked;
+            document.getElementById('booking-input').style.display = e ? 'block' : 'none';
+            document.getElementById('booking-card').style.display = e ? 'block' : 'none';
+            updateAll();
+        }
+
+        function updateAll() { updateCalculations(); updateContractPreview(); updateShareLink(); }
+        
         function updateCalculations() {
-            const rent = parseInt(document.getElementById('rent-select').value) || 0;
-            const deposit = parseInt(document.getElementById('deposit-input').value) || 0;
-            const bookingEnabled = document.getElementById('booking-toggle').checked;
-            const booking = bookingEnabled ? (parseInt(document.getElementById('booking-input').value) || 0) : 0;
-            const durVal = document.getElementById('duration-select').value;
-            const isCustom = durVal === 'custom';
+            const r = parseInt(document.getElementById('rent-select').value) || 0;
+            const d = parseInt(document.getElementById('deposit-input').value) || 0;
+            const bEn = document.getElementById('booking-toggle').checked;
+            const b = bEn ? (parseInt(document.getElementById('booking-input').value) || 0) : 0;
+            const dur = document.getElementById('duration-select').value;
+            const isC = dur === 'custom';
             
-            document.getElementById('custom-dates-row').style.display = isCustom ? 'grid' : 'none';
+            document.getElementById('custom-dates-row').style.display = isC ? 'grid' : 'none';
             
-            let startDate, endDate, durationLabel;
-            if (isCustom) {
-                const cs = document.getElementById('custom-start').value;
-                const ce = document.getElementById('custom-end').value;
-                startDate = cs ? new Date(cs) : new Date();
-                endDate = ce ? new Date(ce) : addMonths(startDate, 12);
-                durationLabel = 'Custom';
+            let sd, ed;
+            if (isC) {
+                sd = document.getElementById('custom-start').value ? new Date(document.getElementById('custom-start').value) : new Date();
+                ed = document.getElementById('custom-end').value ? new Date(document.getElementById('custom-end').value) : addMonths(sd, 12);
             } else {
-                const duration = parseInt(durVal) || 12;
-                startDate = new Date();
-                endDate = addMonths(startDate, duration);
-                durationLabel = duration + ' months';
+                sd = new Date();
+                ed = addMonths(sd, parseInt(dur) || 12);
             }
             
-            document.getElementById('rent-display').textContent = fmt(rent) + ' EUR';
-            document.getElementById('deposit-display').textContent = fmt(deposit) + ' EUR';
-            document.getElementById('booking-display').textContent = booking ? (fmt(booking) + ' EUR') : '0 EUR';
-            document.getElementById('duration-display').textContent = durationLabel;
-            document.getElementById('period-display').textContent = formatDateShort(startDate) + ' → ' + formatDateShort(endDate);
-            document.getElementById('total-display').textContent = fmt(rent + deposit + booking) + ' EUR';
-            
-            window.contractDates = { startDate, endDate };
+            document.getElementById('rent-display').textContent = fmt(r);
+            document.getElementById('deposit-display').textContent = fmt(d);
+            document.getElementById('booking-display').textContent = fmt(b);
+            document.getElementById('duration-display').textContent = isC ? 'Custom' : (dur + ' months');
+            document.getElementById('period-display').textContent = formatDateShort(sd) + ' - ' + formatDateShort(ed);
+            document.getElementById('total-display').textContent = fmt(r + d + b);
+            window.dates = { sd, ed };
         }
         
         function updateContractPreview() {
-            const landlord = document.getElementById('landlord-name').value || 'VIVAVIDA GLOBAL REALTY';
-            const tenantName = document.getElementById('tenant-name').value;
-            const tenantId = document.getElementById('tenant-id').value;
-            const tenantEmail = document.getElementById('tenant-email').value;
-            const tenantPhone = document.getElementById('tenant-phone').value;
-            const tenant2Name = document.getElementById('tenant2-name').value;
-            const tenant2Id = document.getElementById('tenant2-id').value;
-            const rent = document.getElementById('rent-select').value;
-            const deposit = document.getElementById('deposit-input').value;
-            const bookingEnabled = document.getElementById('booking-toggle').checked;
-            const booking = bookingEnabled ? document.getElementById('booking-input').value : '0';
+            const tn = document.getElementById('tenant-name').value;
+            const t2n = document.getElementById('tenant2-name').value;
+            const r = document.getElementById('rent-select').value;
+            const d = document.getElementById('deposit-input').value;
+            const bEn = document.getElementById('booking-toggle').checked;
+            const b = document.getElementById('booking-input').value;
             
-            updateField('preview-landlord', landlord);
-            updateField('preview-tenant-name', tenantName, '[To be filled]');
-            updateField('preview-tenant-id', tenantId, '[To be filled]');
-            updateField('preview-tenant-email', tenantEmail, '[To be filled]');
-            updateField('preview-tenant-phone', tenantPhone, '[To be filled]');
+            updateF('preview-tenant-name', tn, '[To be filled]');
+            updateF('preview-start', formatDate(window.dates?.sd), '-');
+            updateF('preview-end', formatDate(window.dates?.ed), '-');
+            updateF('preview-rent', fmt(r) + ' Euros per month');
+            updateF('preview-deposit', fmt(d) + ' Euros');
             
-            const tenant2Section = document.getElementById('preview-tenant2-section');
-            if (tenant2Name) {
-                tenant2Section.style.display = 'block';
-                updateField('preview-tenant2-name', tenant2Name);
-                updateField('preview-tenant2-id', tenant2Id || '-');
-            } else {
-                tenant2Section.style.display = 'none';
-            }
-            
-            const dates = window.contractDates || { startDate: new Date(), endDate: addMonths(new Date(), 12) };
-            updateField('preview-start', formatDate(dates.startDate), '-');
-            updateField('preview-end', formatDate(dates.endDate), '-');
-            
-            updateField('preview-rent', fmt(rent) + ' Euros per month');
-            updateField('preview-deposit', fmt(deposit) + ' Euros');
-            
-            const bookingSection = document.getElementById('preview-booking-section');
-            if (bookingEnabled && parseInt(booking) > 0) {
-                bookingSection.style.display = 'inline';
-                updateField('preview-booking', fmt(booking) + ' Euros');
-            } else {
-                bookingSection.style.display = 'none';
-            }
-            
-            document.getElementById('preview-sign-date').textContent = formatDate(new Date());
-            updateField('preview-sign-name', tenantName || '[Tenant Name]', '[Tenant Name]');
+            const bs = document.getElementById('preview-booking-section');
+            if (bEn && parseInt(b) > 0) { bs.style.display = 'inline'; updateF('preview-booking', fmt(b) + ' Euros'); }
+            else bs.style.display = 'none';
         }
         
-        function updateField(id, value, emptyText) {
-            const el = document.getElementById(id);
-            if (!el) return;
-            
-            if (!value || value === '0 Euros' || value.includes('NaN')) {
-                if (emptyText) {
-                    el.textContent = emptyText;
-                    el.classList.add('empty');
-                } else {
-                    el.textContent = '-';
-                    el.classList.remove('empty');
-                }
-            } else {
-                el.textContent = value;
-                el.classList.remove('empty');
-            }
+        function updateF(id, v, empty) {
+            const e = document.getElementById(id);
+            if (!v || v.includes('NaN')) { if (empty) { e.textContent = empty; e.classList.add('empty'); } else e.textContent = '-'; }
+            else { e.textContent = v; e.classList.remove('empty'); }
         }
 
-        // Attach event listeners
-        const inputs = document.querySelectorAll('input, select');
-        inputs.forEach(input => {
-            input.addEventListener('input', updateAll);
-            input.addEventListener('change', updateAll);
-        });
+        document.querySelectorAll('input, select').forEach(i => { i.addEventListener('input', updateAll); i.addEventListener('change', updateAll); });
 
-        // Canvas setup
-        let canvas, wrapper, ctx, drawing = false, hasSignature = false, lastX = 0, lastY = 0;
-
-        function initCanvas() {
+        let canvas, wrapper, ctx, drawing = false, hasSig = false, lx, ly;
+        function initC() {
             canvas = document.getElementById('signature-pad');
             wrapper = document.getElementById('signature-wrapper');
-            if (!canvas || !wrapper) return;
-            
             ctx = canvas.getContext('2d');
-            const w = wrapper.offsetWidth;
-            const h = wrapper.offsetHeight;
-            canvas.width = w;
-            canvas.height = h;
-            ctx.fillStyle = '#fff';
-            ctx.fillRect(0, 0, w, h);
-            ctx.strokeStyle = '#1e1e1e';
-            ctx.lineWidth = 2.5;
-            ctx.lineCap = 'round';
-            ctx.lineJoin = 'round';
+            const w = wrapper.offsetWidth, h = wrapper.offsetHeight;
+            canvas.width = w; canvas.height = h;
+            ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, w, h);
+            ctx.strokeStyle = '#1e1e1e'; ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+        }
+        function getXY(e) {
+            const r = canvas.getBoundingClientRect();
+            const sx = canvas.width / r.width, sy = canvas.height / r.height;
+            const cx = e.touches?.[0]?.clientX || e.clientX;
+            const cy = e.touches?.[0]?.clientY || e.clientY;
+            return { x: (cx - r.left) * sx, y: (cy - r.top) * sy };
+        }
+        function onStart(e) { e.preventDefault(); drawing = true; hasSig = true; const p = getXY(e); lx = p.x; ly = p.y; ctx.beginPath(); ctx.moveTo(p.x, p.y); }
+        function onMove(e) { e.preventDefault(); if (!drawing) return; const p = getXY(e); ctx.beginPath(); ctx.moveTo(lx, ly); ctx.lineTo(p.x, p.y); ctx.stroke(); lx = p.x; ly = p.y; }
+        function onEnd(e) { if (e) e.preventDefault(); drawing = false; }
+        function clearSignature() { initC(); hasSig = false; }
+        
+        function showSuccess(m) { const e = document.getElementById('success-msg'); e.textContent = m; e.style.display = 'block'; setTimeout(() => e.style.display = 'none', 3000); }
+        function showError(m) { const e = document.getElementById('error-msg'); e.textContent = m; e.style.display = 'block'; }
+
+        function genPDF(data) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            let y = 15;
+            doc.setFontSize(18); doc.text('RENTAL AGREEMENT', 105, y, { align: 'center' }); y += 8;
+            doc.setDrawColor(102, 126, 234); doc.line(20, y, 190, y); y += 10;
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'bold'); doc.text('Renter:', 20, y); doc.setFont(undefined, 'normal'); doc.text('VIVAVIDA GLOBAL REALTY', 45, y); y += 7;
+            doc.setFont(undefined, 'bold'); doc.text('Tenant:', 20, y); doc.setFont(undefined, 'normal'); doc.text(data.name.toUpperCase(), 45, y); y += 5;
+            doc.setFontSize(9); doc.text('ID: ' + data.id + '  |  Email: ' + data.email + '  |  Phone: ' + data.phone, 45, y); y += 7;
+            if (data.name2) {
+                doc.setFontSize(10); doc.setFont(undefined, 'bold'); doc.text('Tenant 2:', 20, y); doc.setFont(undefined, 'normal'); doc.text(data.name2.toUpperCase(), 45, y); y += 5;
+                doc.setFontSize(9); doc.text('ID: ' + data.id2, 45, y); y += 7;
+            }
+            y += 3; doc.setFontSize(10);
+            function addText(t, b) { if (y > 270) { doc.addPage(); y = 20; } if (b) doc.setFont(undefined, 'bold'); const l = doc.splitTextToSize(t, 170); doc.text(l, 20, y); if (b) doc.setFont(undefined, 'normal'); y += l.length * 4.5 + 3; }
+            addText('A. Living Accommodation', true);
+            addText('This is a private agreement with the sole purpose of personal usage of an accommodation in a determined living space. This is not intended to be used for personal procedures in public or private Databases neither related to permanent residency of any kind since the tenant is only requesting a temporary accommodation and will be granted with just that.');
+            addText('Article 1. Renter lets out for personal use a room on the apartment in: ' + data.address + '. This includes also the use of the kitchen, shower and toilet.');
+            addText('Article 2. The agreement has been made for the period from ' + data.startStr + ' to ' + data.endStr + '. The tenant is responsible for paying the rent during this period. In case tenant wants to move out before the end of the contract, the deposit will not be refunded. The Renter can give immediate notice to the tenant to move out in case of any trouble.');
+            addText('B. Rent and Related Living Costs', true);
+            addText('Article 3. The rent of the room is ' + fmt(data.rent) + ' Euros per month. Which includes the cost of gas, electricity, water, Internet and furniture in the room.');
+            let a4 = 'Article 4. Security Deposit: ' + fmt(data.deposit) + ' Euros. Refunded after end of contract if no damage. Refund may take up to 30 days. If tenant moves out early, deposit is not refunded.';
+            if (data.booking && parseInt(data.booking) > 0) a4 += ' Booking amount: ' + fmt(data.booking) + ' Euros (non-refundable reservation).';
+            addText(a4);
+            addText('Article 5. Rent paid in advance on the 30th of every month. Penalty of 50 EUR per day of delay.');
+            addText('C. Obligations', true);
+            addText('Article 6. Renter provides room in clean state with no defects.');
+            addText('Article 7. Tenant must not cause trouble to neighbors or roommates. Must share cleaning. Agrees to security cameras. No subletting, no pets, no overnight guests. Room must be returned clean.');
+            addText('D. End of Agreement', true);
+            addText('Article 8. Tenant is responsible for paying rent on time during the full period.');
+            y += 5; if (y > 230) { doc.addPage(); y = 20; }
+            doc.line(20, y, 190, y); y += 10;
+            doc.setFont(undefined, 'bold'); doc.text('Signature Renter', 20, y); doc.text('Signature Tenant', 120, y); y += 5;
+            doc.setFont(undefined, 'normal'); doc.text('VIVAVIDA GLOBAL REALTY', 20, y);
+            doc.addImage(canvas.toDataURL('image/png'), 'PNG', 115, y - 3, 55, 28); y += 30;
+            doc.text(data.name.toUpperCase(), 120, y); y += 5;
+            doc.text('Date: ' + new Date().toLocaleDateString('en-GB'), 120, y);
+            doc.setFontSize(8); doc.setTextColor(150); doc.text('Rental Agreement - Private Accommodation', 105, 290, { align: 'center' });
+            return doc;
         }
         
-        function getXY(e) {
-            const rect = canvas.getBoundingClientRect();
-            const scaleX = canvas.width / rect.width;
-            const scaleY = canvas.height / rect.height;
-            let clientX, clientY;
-            if (e.touches && e.touches.length > 0) {
-                clientX = e.touches[0].clientX;
-                clientY = e.touches[0].clientY;
-            } else {
-                clientX = e.clientX;
-                clientY = e.clientY;
-            }
-            return {
-                x: (clientX - rect.left) * scaleX,
-                y: (clientY - rect.top) * scaleY
+        document.getElementById('rental-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (!hasSig) { showError('Please sign the contract before submitting.'); return; }
+            const n = document.getElementById('tenant-name').value.trim();
+            const id = document.getElementById('tenant-id').value.trim();
+            const em = document.getElementById('tenant-email').value.trim();
+            const ph = document.getElementById('tenant-phone').value.trim();
+            if (!n || !id || !em || !ph) { showError('Please fill in all tenant details.'); return; }
+            
+            const dur = document.getElementById('duration-select').value;
+            const isC = dur === 'custom';
+            let sd, ed;
+            if (isC) {
+                const cs = document.getElementById('custom-start').value, ce = document.getElementById('custom-end').value;
+                if (!cs || !ce) { showError('Please select start and end dates.'); return; }
+                sd = new Date(cs); ed = new Date(ce);
+            } else { sd = new Date(); ed = addMonths(sd, parseInt(dur)); }
+            
+            const bEn = document.getElementById('booking-toggle').checked;
+            const data = {
+                name: n, id: id, email: em, phone: ph,
+                name2: document.getElementById('tenant2-name').value,
+                id2: document.getElementById('tenant2-id').value,
+                rent: document.getElementById('rent-select').value,
+                deposit: document.getElementById('deposit-input').value,
+                booking: bEn ? document.getElementById('booking-input').value : '0',
+                address: 'H. Cleyndertweg, Amsterdam Noord',
+                startStr: formatDateShort(sd), endStr: formatDateShort(ed)
             };
-        }
-
-        function onStart(e) {
-            e.preventDefault();
-            drawing = true;
-            hasSignature = true;
-            const p = getXY(e);
-            lastX = p.x;
-            lastY = p.y;
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-        }
-
-        function onMove(e) {
-            e.preventDefault();
-            if (!drawing) return;
-            const p = getXY(e);
-            ctx.beginPath();
-            ctx.moveTo(lastX, lastY);
-            ctx.lineTo(p.x, p.y);
-            ctx.stroke();
-            lastX = p.x;
-            lastY = p.y;
-        }
-
-        function onEnd(e) {
-            if (e) e.preventDefault();
-            drawing = false;
-        }
-
-        function setupCanvasEvents() {
-            if (!canvas) return;
+            
+            const btn = document.getElementById('submit-btn');
+            btn.disabled = true; btn.textContent = 'Generating...';
+            try {
+                const doc = genPDF(data);
+                doc.save('Contract_' + data.name.replace(/\s+/g, '_') + '_' + new Date().toISOString().split('T')[0] + '.pdf');
+                showSuccess('Contract downloaded successfully!');
+            } catch (err) { showError('Error generating PDF.'); }
+            finally { btn.disabled = false; btn.textContent = 'Sign Contract'; }
+        });
+        
+        window.addEventListener('load', function() {
+            initC();
             canvas.addEventListener('mousedown', onStart);
             canvas.addEventListener('mousemove', onMove);
             canvas.addEventListener('mouseup', onEnd);
@@ -969,248 +728,7 @@
             canvas.addEventListener('touchstart', onStart, { passive: false });
             canvas.addEventListener('touchmove', onMove, { passive: false });
             canvas.addEventListener('touchend', onEnd);
-            canvas.addEventListener('touchcancel', onEnd);
-        }
-
-        function clearSignature() {
-            if (!ctx) return;
-            const w = wrapper.offsetWidth;
-            const h = wrapper.offsetHeight;
-            ctx.fillStyle = '#fff';
-            ctx.fillRect(0, 0, w, h);
-            hasSignature = false;
-        }
-        
-        function showSuccess(msg) {
-            const el = document.getElementById('success-msg');
-            if (!el) return;
-            el.innerHTML = msg;
-            el.style.display = 'block';
-            document.getElementById('error-msg').style.display = 'none';
-            document.getElementById('warning-msg').style.display = 'none';
-            setTimeout(() => el.style.display = 'none', 5000);
-        }
-        
-        function showError(msg) {
-            const el = document.getElementById('error-msg');
-            if (!el) return;
-            el.textContent = msg;
-            el.style.display = 'block';
-            document.getElementById('success-msg').style.display = 'none';
-            document.getElementById('warning-msg').style.display = 'none';
-        }
-        
-        function showWarning(msg) {
-            const el = document.getElementById('warning-msg');
-            if (!el) return;
-            el.textContent = msg;
-            el.style.display = 'block';
-            setTimeout(() => el.style.display = 'none', 3000);
-        }
-
-        function generatePDF(data) {
-            const { jsPDF } = window.jspdf;
-            if (!jsPDF) {
-                throw new Error('PDF library not loaded');
-            }
-            
-            const doc = new jsPDF();
-            let y = 15;
-
-            doc.setFontSize(18);
-            doc.setTextColor(0);
-            doc.text('RENTAL AGREEMENT', 105, y, { align: 'center' });
-            y += 5;
-            doc.setDrawColor(102, 126, 234);
-            doc.setLineWidth(0.5);
-            doc.line(20, y, 190, y);
-            y += 10;
-
-            doc.setFontSize(10);
-
-            doc.setFont(undefined, 'bold');
-            doc.text('Renter:', 20, y);
-            doc.setFont(undefined, 'normal');
-            doc.text(data.landlord.toUpperCase(), 45, y);
-            y += 7;
-            doc.setFont(undefined, 'bold');
-            doc.text('Tenant:', 20, y);
-            doc.setFont(undefined, 'normal');
-            doc.text(data.name.toUpperCase(), 45, y);
-            y += 5;
-            doc.setFontSize(9);
-            doc.text('ID: ' + data.id + '  |  Email: ' + data.email + '  |  Phone: ' + data.phone, 45, y);
-            y += 7;
-
-            if (data.name2) {
-                doc.setFontSize(10);
-                doc.setFont(undefined, 'bold');
-                doc.text('Tenant 2:', 20, y);
-                doc.setFont(undefined, 'normal');
-                doc.text(data.name2.toUpperCase(), 45, y);
-                y += 5;
-                doc.setFontSize(9);
-                doc.text('ID: ' + data.id2, 45, y);
-                y += 7;
-            }
-
-            y += 3;
-            doc.setFontSize(10);
-
-            function addText(text, bold) {
-                if (y > 270) { doc.addPage(); y = 20; }
-                if (bold) doc.setFont(undefined, 'bold');
-                const lines = doc.splitTextToSize(text, 170);
-                doc.text(lines, 20, y);
-                if (bold) doc.setFont(undefined, 'normal');
-                y += lines.length * 4.5 + 3;
-            }
-
-            addText('A. Living Accommodation', true);
-            addText('This is a private agreement with the sole purpose of personal usage of an accommodation in a determined living space. This is not intended to be used for personal procedures in public or private Databases neither related to permanent residency of any kind since the tenant is only requesting a temporary accommodation and will be granted with just that.');
-
-            addText('Article 1. Renter lets out for personal use a room on the apartment in: ' + data.address + '. This includes also the use of the kitchen, shower and toilet.');
-
-            addText('Article 2. The agreement has been made for the period from ' + data.startStr + ' to ' + data.endStr + '. The tenant is responsible for paying the rent during this period. In case tenant wants to move out before the end of the contract, the deposit will not be refunded. The Renter can give immediate notice to the tenant to move out in case of any trouble.');
-
-            addText('B. Rent and Related Living Costs', true);
-
-            addText('Article 3. The rent of the room is ' + fmt(data.rent) + ' Euros per month. Which includes the cost of gas, electricity, water, Internet and furniture in the room.');
-
-            let article4 = 'Article 4. Security Deposit: ' + fmt(data.deposit) + ' Euros. Refunded after end of contract if no damage. Refund may take up to 30 days. If tenant moves out early, deposit is not refunded.';
-            if (data.booking && parseInt(data.booking) > 0) {
-                article4 += ' Booking amount: ' + fmt(data.booking) + ' Euros (non-refundable reservation).';
-            }
-            addText(article4);
-
-            addText('Article 5. Rent paid in advance on the 30th of every month. Penalty of 50 EUR per day of delay.');
-
-            addText('C. Obligations', true);
-
-            addText('Article 6. Renter provides room in clean state with no defects.');
-
-            addText('Article 7. Tenant must not cause trouble to neighbors or roommates. Must share cleaning. Agrees to security cameras. No subletting, no pets, no overnight guests. Room must be returned clean.');
-
-            addText('D. End of Agreement', true);
-
-            addText('Article 8. Tenant is responsible for paying rent on time during the full period.');
-
-            y += 5;
-            if (y > 230) { doc.addPage(); y = 20; }
-            doc.line(20, y, 190, y);
-            y += 10;
-
-            doc.setFont(undefined, 'bold');
-            doc.text('Signature Renter', 20, y);
-            doc.text('Signature Tenant', 120, y);
-            y += 5;
-            doc.setFont(undefined, 'normal');
-            doc.text(data.landlord.toUpperCase(), 20, y);
-
-            const sigData = canvas.toDataURL('image/png');
-            doc.addImage(sigData, 'PNG', 115, y - 3, 55, 28);
-            y += 30;
-
-            doc.text(data.name.toUpperCase(), 120, y);
-            y += 5;
-            doc.text('Date: ' + new Date().toLocaleDateString('en-GB'), 120, y);
-
-            doc.setFontSize(8);
-            doc.setTextColor(150);
-            doc.text('Rental Agreement - Private Accommodation', 105, 290, { align: 'center' });
-
-            return doc;
-        }
-        
-        document.getElementById('rental-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            if (!hasSignature) {
-                showError('Please sign the contract in the signature box before downloading.');
-                return;
-            }
-            
-            const name = document.getElementById('tenant-name').value.trim();
-            const id = document.getElementById('tenant-id').value.trim();
-            const email = document.getElementById('tenant-email').value.trim();
-            const phone = document.getElementById('tenant-phone').value.trim();
-            
-            if (!name || !id || !email || !phone) {
-                showError('Please fill in all required tenant information.');
-                return;
-            }
-
-            const durVal = document.getElementById('duration-select').value;
-            const isCustom = durVal === 'custom';
-            let startDate, endDate;
-            
-            if (isCustom) {
-                const cs = document.getElementById('custom-start').value;
-                const ce = document.getElementById('custom-end').value;
-                if (!cs || !ce) {
-                    showError('Please select both start and end dates for custom duration.');
-                    return;
-                }
-                startDate = new Date(cs);
-                endDate = new Date(ce);
-            } else {
-                const duration = parseInt(durVal);
-                startDate = new Date();
-                endDate = addMonths(startDate, duration);
-            }
-            
-            const bookingEnabled = document.getElementById('booking-toggle').checked;
-
-            const data = {
-                landlord: document.getElementById('landlord-name').value,
-                name: name,
-                id: id,
-                email: email,
-                phone: phone,
-                name2: document.getElementById('tenant2-name').value,
-                id2: document.getElementById('tenant2-id').value,
-                rent: document.getElementById('rent-select').value,
-                deposit: document.getElementById('deposit-input').value,
-                booking: bookingEnabled ? document.getElementById('booking-input').value : '0',
-                address: 'H. Cleyndertweg, Amsterdam Noord',
-                startStr: formatDateShort(startDate),
-                endStr: formatDateShort(endDate)
-            };
-
-            const submitBtn = document.getElementById('submit-btn');
-            submitBtn.disabled = true;
-            submitBtn.textContent = '📄 Generating PDF...';
-
-            try {
-                const doc = generatePDF(data);
-                const fileName = 'Contract_' + data.name.replace(/\s+/g, '_') + '_' + new Date().toISOString().split('T')[0] + '.pdf';
-                doc.save(fileName);
-                showSuccess('✅ Contract downloaded successfully! File: <strong>' + fileName + '</strong>');
-            } catch (err) {
-                console.error(err);
-                showError('❌ Error generating PDF: ' + (err.message || 'Please try again'));
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = '📥 Download Signed Contract (PDF)';
-            }
-        });
-        
-        // Initialize on load
-        window.addEventListener('load', function() {
-            try {
-                initCanvas();
-                setupCanvasEvents();
-                prefillFromURL();
-            } catch (e) {
-                console.error('Initialization error:', e);
-            }
-        });
-        
-        window.addEventListener('resize', function() {
-            // Only reinitialize if no signature drawn
-            if (!hasSignature) {
-                initCanvas();
-            }
+            prefillFromURL();
         });
     </script>
 </body>
