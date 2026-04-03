@@ -271,7 +271,7 @@
         .btn:hover { opacity: 0.9; }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; }
         
-        .success-message, .error-message {
+        .success-message, .error-message, .info-message {
             display: none;
             padding: 12px;
             border-radius: 6px;
@@ -288,6 +288,38 @@
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
+        .info-message {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .telegram-config {
+            background: #e3f2fd;
+            border: 1px solid #bbdefb;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 15px;
+            font-size: 0.85em;
+        }
+        .telegram-config label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #1565c0;
+        }
+        .telegram-config input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #90caf9;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        .telegram-config small {
+            display: block;
+            margin-top: 5px;
+            color: #666;
+        }
         
         @media (max-width: 600px) {
             .form-row { grid-template-columns: 1fr; }
@@ -300,12 +332,13 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Rental Agreement</h1>
+            <h1>Private Accommodation Agreement</h1>
         </div>
 
         <div class="contract-body">
             <div class="success-message" id="success-msg"></div>
             <div class="error-message" id="error-msg"></div>
+            <div class="info-message" id="info-msg"></div>
 
             <div class="share-section">
                 <h3>Share Contract Link</h3>
@@ -318,6 +351,24 @@
             </div>
 
             <form id="rental-form">
+                <div class="section-title">Landlord Details</div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Landlord Email (to receive signed contract)</label>
+                        <input type="email" id="landlord-email" placeholder="your@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Landlord / Company Name</label>
+                        <input type="text" id="landlord-name" value="VIVAVIDA GLOBAL REALTY">
+                    </div>
+                </div>
+                
+                <div class="telegram-config">
+                    <label>Telegram Bot Token (optional - for instant notifications)</label>
+                    <input type="text" id="telegram-token" placeholder="123456789:ABCdefGHIjklMNOpqrSTUvwxyz">
+                    <small>Get from @BotFather. Leave empty to skip Telegram notifications.</small>
+                </div>
+
                 <div class="section-title">Tenant Details</div>
                 <div class="form-row">
                     <div class="form-group">
@@ -448,7 +499,7 @@
 
                     <p><strong>Article 3.</strong> The rent of the room is <span class="dynamic-field" id="preview-rent">1,390 Euros per month</span>. Which includes the cost of gas, electricity, water, Internet and furniture in the room.</p>
 
-                    <p><strong>Article 4.</strong> Security Deposit: <span class="dynamic-field" id="preview-deposit">2,000 Euros</span>. Refunded after end of contract if no damage. Refund may take up to 30 days. If tenant moves out early, deposit is not refunded.<span id="preview-booking-section"> Booking amount: <span class="dynamic-field" id="preview-booking">500 Euros</span> (non-refundable reservation).</span></p>
+                    <p><strong>Article 4.</strong> Security Deposit: <span class="dynamic-field" id="preview-deposit">2,000 Euros</span>. Refunded after end of contract if no damage. Refund may take up to 30 days. If tenant moves out early, deposit is not refunded.</p>
 
                     <p><strong>Article 5.</strong> Rent paid in advance on the 30th of every month. Penalty of 50 EUR per day of delay.</p>
 
@@ -471,7 +522,7 @@
                     </div>
                     <div class="signature-buttons">
                         <button type="button" class="btn btn-secondary" onclick="clearSignature()">Clear</button>
-                        <button type="submit" class="btn btn-primary" id="submit-btn">Sign Contract</button>
+                        <button type="submit" class="btn btn-primary" id="submit-btn">Sign & Send Contract</button>
                     </div>
                 </div>
             </form>
@@ -489,6 +540,9 @@
         function getParam(name, def) { return urlParams.get(name) || def; }
         
         function prefillFromURL() {
+            document.getElementById('landlord-email').value = getParam('landlord_email', '');
+            document.getElementById('landlord-name').value = getParam('landlord_name', 'VIVAVIDA GLOBAL REALTY');
+            document.getElementById('telegram-token').value = getParam('telegram_token', '');
             document.getElementById('tenant-name').value = getParam('name', '');
             document.getElementById('tenant-id').value = getParam('id', '');
             document.getElementById('tenant-email').value = getParam('email', '');
@@ -519,6 +573,9 @@
         
         function generateShareLink() {
             const p = new URLSearchParams();
+            p.set('landlord_email', document.getElementById('landlord-email').value);
+            p.set('landlord_name', document.getElementById('landlord-name').value);
+            p.set('telegram_token', document.getElementById('telegram-token').value);
             p.set('name', document.getElementById('tenant-name').value);
             p.set('id', document.getElementById('tenant-id').value);
             p.set('email', document.getElementById('tenant-email').value);
@@ -543,7 +600,7 @@
             const i = document.getElementById('share-link');
             i.select();
             document.execCommand('copy') || navigator.clipboard.writeText(i.value);
-            showSuccess('Link copied!');
+            showSuccess('Link copied! Send this to your tenant.');
         }
         
         function openShareLink() { window.open(document.getElementById('share-link').value, '_blank'); }
@@ -587,21 +644,14 @@
         
         function updateContractPreview() {
             const tn = document.getElementById('tenant-name').value;
-            const t2n = document.getElementById('tenant2-name').value;
             const r = document.getElementById('rent-select').value;
             const d = document.getElementById('deposit-input').value;
-            const bEn = document.getElementById('booking-toggle').checked;
-            const b = document.getElementById('booking-input').value;
             
             updateF('preview-tenant-name', tn, '[To be filled]');
             updateF('preview-start', formatDate(window.dates?.sd), '-');
             updateF('preview-end', formatDate(window.dates?.ed), '-');
             updateF('preview-rent', fmt(r) + ' Euros per month');
             updateF('preview-deposit', fmt(d) + ' Euros');
-            
-            const bs = document.getElementById('preview-booking-section');
-            if (bEn && parseInt(b) > 0) { bs.style.display = 'inline'; updateF('preview-booking', fmt(b) + ' Euros'); }
-            else bs.style.display = 'none';
         }
         
         function updateF(id, v, empty) {
@@ -634,17 +684,18 @@
         function onEnd(e) { if (e) e.preventDefault(); drawing = false; }
         function clearSignature() { initC(); hasSig = false; }
         
-        function showSuccess(m) { const e = document.getElementById('success-msg'); e.textContent = m; e.style.display = 'block'; setTimeout(() => e.style.display = 'none', 3000); }
-        function showError(m) { const e = document.getElementById('error-msg'); e.textContent = m; e.style.display = 'block'; }
+        function showSuccess(m) { const e = document.getElementById('success-msg'); e.textContent = m; e.style.display = 'block'; setTimeout(() => e.style.display = 'none', 5000); }
+        function showError(m) { const e = document.getElementById('error-msg'); e.textContent = m; e.style.display = 'block'; setTimeout(() => e.style.display = 'none', 5000); }
+        function showInfo(m) { const e = document.getElementById('info-msg'); e.textContent = m; e.style.display = 'block'; setTimeout(() => e.style.display = 'none', 5000); }
 
         function genPDF(data) {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             let y = 15;
-            doc.setFontSize(18); doc.text('RENTAL AGREEMENT', 105, y, { align: 'center' }); y += 8;
+            doc.setFontSize(18); doc.text('PRIVATE ACCOMMODATION AGREEMENT', 105, y, { align: 'center' }); y += 8;
             doc.setDrawColor(102, 126, 234); doc.line(20, y, 190, y); y += 10;
             doc.setFontSize(10);
-            doc.setFont(undefined, 'bold'); doc.text('Renter:', 20, y); doc.setFont(undefined, 'normal'); doc.text('VIVAVIDA GLOBAL REALTY', 45, y); y += 7;
+            doc.setFont(undefined, 'bold'); doc.text('Renter:', 20, y); doc.setFont(undefined, 'normal'); doc.text(data.landlord.toUpperCase(), 45, y); y += 7;
             doc.setFont(undefined, 'bold'); doc.text('Tenant:', 20, y); doc.setFont(undefined, 'normal'); doc.text(data.name.toUpperCase(), 45, y); y += 5;
             doc.setFontSize(9); doc.text('ID: ' + data.id + '  |  Email: ' + data.email + '  |  Phone: ' + data.phone, 45, y); y += 7;
             if (data.name2) {
@@ -659,9 +710,7 @@
             addText('Article 2. The agreement has been made for the period from ' + data.startStr + ' to ' + data.endStr + '. The tenant is responsible for paying the rent during this period. In case tenant wants to move out before the end of the contract, the deposit will not be refunded. The Renter can give immediate notice to the tenant to move out in case of any trouble.');
             addText('B. Rent and Related Living Costs', true);
             addText('Article 3. The rent of the room is ' + fmt(data.rent) + ' Euros per month. Which includes the cost of gas, electricity, water, Internet and furniture in the room.');
-            let a4 = 'Article 4. Security Deposit: ' + fmt(data.deposit) + ' Euros. Refunded after end of contract if no damage. Refund may take up to 30 days. If tenant moves out early, deposit is not refunded.';
-            if (data.booking && parseInt(data.booking) > 0) a4 += ' Booking amount: ' + fmt(data.booking) + ' Euros (non-refundable reservation).';
-            addText(a4);
+            addText('Article 4. Security Deposit: ' + fmt(data.deposit) + ' Euros. Refunded after end of contract if no damage. Refund may take up to 30 days. If tenant moves out early, deposit is not refunded.');
             addText('Article 5. Rent paid in advance on the 30th of every month. Penalty of 50 EUR per day of delay.');
             addText('C. Obligations', true);
             addText('Article 6. Renter provides room in clean state with no defects.');
@@ -670,23 +719,72 @@
             addText('Article 8. Tenant is responsible for paying rent on time during the full period.');
             y += 5; if (y > 230) { doc.addPage(); y = 20; }
             doc.line(20, y, 190, y); y += 10;
-            doc.setFont(undefined, 'bold'); doc.text('Signature Renter', 20, y); doc.text('Signature Tenant', 120, y); y += 5;
-            doc.setFont(undefined, 'normal'); doc.text('VIVAVIDA GLOBAL REALTY', 20, y);
+            doc.setFont(undefined, 'bold'); doc.text('Landlord Signature', 20, y); doc.text('Tenant Signature', 120, y); y += 5;
+            doc.setFont(undefined, 'normal'); doc.text(data.landlord.toUpperCase(), 20, y);
             doc.addImage(canvas.toDataURL('image/png'), 'PNG', 115, y - 3, 55, 28); y += 30;
             doc.text(data.name.toUpperCase(), 120, y); y += 5;
             doc.text('Date: ' + new Date().toLocaleDateString('en-GB'), 120, y);
-            doc.setFontSize(8); doc.setTextColor(150); doc.text('Rental Agreement - Private Accommodation', 105, 290, { align: 'center' });
+            doc.setFontSize(8); doc.setTextColor(150); doc.text('Private Accommodation Agreement', 105, 290, { align: 'center' });
             return doc;
         }
         
-        document.getElementById('rental-form').addEventListener('submit', function(e) {
+        async function sendToTelegram(pdfBlob, fileName, caption, botToken) {
+            if (!botToken) return false;
+            try {
+                const chatId = botToken.split(':')[0];
+                const formData = new FormData();
+                formData.append('chat_id', chatId);
+                formData.append('document', pdfBlob, fileName);
+                formData.append('caption', caption);
+                
+                const response = await fetch('https://api.telegram.org/bot' + botToken + '/sendDocument', {
+                    method: 'POST',
+                    body: formData
+                });
+                return response.ok;
+            } catch (e) {
+                console.error('Telegram send failed:', e);
+                return false;
+            }
+        }
+        
+        async function sendEmailWithPDF(pdfBase64, fileName, data) {
+            const landlordEmail = document.getElementById('landlord-email').value;
+            if (!landlordEmail) return false;
+            
+            // Use mailto as fallback - opens email client with attachment info
+            const subject = encodeURIComponent('Signed Contract: ' + data.name);
+            const body = encodeURIComponent(
+                'New signed contract received.\n\n' +
+                'Tenant: ' + data.name + '\n' +
+                'Email: ' + data.email + '\n' +
+                'Phone: ' + data.phone + '\n' +
+                'Rent: ' + fmt(data.rent) + ' EUR\n' +
+                'Deposit: ' + fmt(data.deposit) + ' EUR\n' +
+                'Period: ' + data.startStr + ' to ' + data.endStr + '\n\n' +
+                'The PDF contract is attached to this email.'
+            );
+            
+            window.location.href = 'mailto:' + landlordEmail + '?subject=' + subject + '&body=' + body;
+            return true;
+        }
+        
+        document.getElementById('rental-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             if (!hasSig) { showError('Please sign the contract before submitting.'); return; }
+            
             const n = document.getElementById('tenant-name').value.trim();
             const id = document.getElementById('tenant-id').value.trim();
             const em = document.getElementById('tenant-email').value.trim();
             const ph = document.getElementById('tenant-phone').value.trim();
+            const landlordEmail = document.getElementById('landlord-email').value.trim();
+            const botToken = document.getElementById('telegram-token').value.trim();
+            
             if (!n || !id || !em || !ph) { showError('Please fill in all tenant details.'); return; }
+            if (!landlordEmail && !botToken) { 
+                showError('Please enter landlord email or Telegram bot token to receive the contract.'); 
+                return;
+            }
             
             const dur = document.getElementById('duration-select').value;
             const isC = dur === 'custom';
@@ -698,7 +796,9 @@
             } else { sd = new Date(); ed = addMonths(sd, parseInt(dur)); }
             
             const bEn = document.getElementById('booking-toggle').checked;
+            const landlord = document.getElementById('landlord-name').value || 'VIVAVIDA GLOBAL REALTY';
             const data = {
+                landlord: landlord,
                 name: n, id: id, email: em, phone: ph,
                 name2: document.getElementById('tenant2-name').value,
                 id2: document.getElementById('tenant2-id').value,
@@ -710,13 +810,49 @@
             };
             
             const btn = document.getElementById('submit-btn');
-            btn.disabled = true; btn.textContent = 'Generating...';
+            btn.disabled = true; btn.textContent = 'Sending...';
+            
             try {
                 const doc = genPDF(data);
-                doc.save('Contract_' + data.name.replace(/\s+/g, '_') + '_' + new Date().toISOString().split('T')[0] + '.pdf');
-                showSuccess('Contract downloaded successfully!');
-            } catch (err) { showError('Error generating PDF.'); }
-            finally { btn.disabled = false; btn.textContent = 'Sign Contract'; }
+                const fileName = 'Contract_' + data.name.replace(/\s+/g, '_') + '_' + new Date().toISOString().split('T')[0] + '.pdf';
+                
+                // Get PDF as blob for sending
+                const pdfBlob = doc.output('blob');
+                const pdfBase64 = doc.output('datauristring');
+                
+                showInfo('Sending contract to landlord...');
+                
+                // Send to Telegram if configured
+                let telegramSent = false;
+                if (botToken) {
+                    const caption = 'New Contract Signed!\n\nTenant: ' + data.name + 
+                        (data.name2 ? ' + ' + data.name2 : '') + 
+                        '\nEmail: ' + data.email + '\nPhone: ' + data.phone + 
+                        '\nRent: ' + fmt(data.rent) + ' EUR | Deposit: ' + fmt(data.deposit) + ' EUR' +
+                        '\nPeriod: ' + data.startStr + ' to ' + data.endStr;
+                    telegramSent = await sendToTelegram(pdfBlob, fileName, caption, botToken);
+                }
+                
+                // Send email if configured
+                let emailSent = false;
+                if (landlordEmail) {
+                    emailSent = await sendEmailWithPDF(pdfBase64, fileName, data);
+                }
+                
+                // Also download locally for tenant
+                doc.save(fileName);
+                
+                if (telegramSent || emailSent) {
+                    showSuccess('Contract sent to landlord and downloaded!');
+                } else {
+                    showSuccess('Contract downloaded! Email client should open to send to landlord.');
+                }
+                
+            } catch (err) { 
+                console.error(err);
+                showError('Error: ' + err.message); 
+            }
+            finally { btn.disabled = false; btn.textContent = 'Sign & Send Contract'; }
         });
         
         window.addEventListener('load', function() {
