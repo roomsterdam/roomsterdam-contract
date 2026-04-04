@@ -483,13 +483,13 @@
 
                     <p><strong>Article 1.</strong> Renter lets out for personal use a room on the apartment in: <strong><span class="dynamic-field" id="preview-address">H. Cleyndertweg, Amsterdam Noord</span></strong>. This includes also the use of the kitchen, shower and toilet.</p>
 
-                    <p><strong>Article 2.</strong> The agreement has been made for the period from <strong><span class="dynamic-field" id="preview-start">-</span></strong> to <strong><span class="dynamic-field" id="preview-end">-</span></strong>. The tenant is responsible for paying the rent during this period. <span id="preview-earlyexit-off">In case tenant wants to move out before the end of the contract, the deposit will not be refunded.</span><span id="preview-earlyexit-on" style="display:none;">After the first 3 months, the tenant may terminate this agreement by providing at least 1 (one) calendar month written notice. In such case, the security deposit will be refunded under the standard conditions of Article 4. During the first 3 months, the tenant may not terminate early and the deposit will not be refunded if the tenant moves out.</span> The Renter can give immediate notice to the tenant to move out in case of any trouble.</p>
+                    <p><strong>Article 2.</strong> The agreement has been made for the period from <strong><span class="dynamic-field" id="preview-start">-</span></strong> to <strong><span class="dynamic-field" id="preview-end">-</span></strong>. The tenant is responsible for paying the rent during this period. <span id="preview-earlyexit-off">In case tenant wants to move out before the end of the contract, the deposit will not be refunded.</span><span id="preview-earlyexit-on" style="display:none;">After the first 4 months, the tenant may terminate this agreement by providing at least 1 (one) calendar month written notice. In such case, the security deposit will be refunded under the standard conditions of Article 4. During the first 4 months, the tenant may not terminate early and the deposit will not be refunded if the tenant moves out.</span> The Renter can give immediate notice to the tenant to move out in case of any trouble.</p>
 
                     <h3>B. Rent and Related Living Costs</h3>
 
                     <p><strong>Article 3.</strong> The rent of the room is <span class="dynamic-field" id="preview-rent">1,390 Euros per month</span>. Which includes the cost of gas, electricity, water, Internet and furniture in the room.</p>
 
-                    <p><strong>Article 4.</strong> Security Deposit: <span class="dynamic-field" id="preview-deposit">2,000 Euros</span>. Refunded after end of contract if no damage. Refund may take up to 30 days. <span id="preview-deposit-earlyexit-off">If tenant moves out early, deposit is not refunded.</span><span id="preview-deposit-earlyexit-on" style="display:none;">If tenant terminates early following the notice procedure described in Article 2, the deposit will be refunded under standard conditions. If tenant moves out without proper notice during the first 3 months, the deposit is not refunded.</span></p>
+                    <p><strong>Article 4.</strong> Security Deposit: <span class="dynamic-field" id="preview-deposit">2,000 Euros</span>. Refunded after end of contract if no damage. Refund may take up to 30 days. <span id="preview-deposit-earlyexit-off">If tenant moves out early, deposit is not refunded.</span><span id="preview-deposit-earlyexit-on" style="display:none;">If tenant terminates early following the notice procedure described in Article 2, the deposit will be refunded under standard conditions. If tenant moves out without proper notice during the first 4 months, the deposit is not refunded.</span></p>
 
                     <p><strong>Article 5.</strong> Rent paid in advance on the 30th of every month. Penalty of 50 EUR per day of delay.</p>
 
@@ -681,7 +681,7 @@
             addText('Article 1. Renter lets out for personal use a room on the apartment in: ' + data.address + '. This includes also the use of the kitchen, shower and toilet.');
             var a2 = 'Article 2. The agreement has been made for the period from ' + data.startStr + ' to ' + data.endStr + '. The tenant is responsible for paying the rent during this period. ';
             if (data.earlyExit) {
-                a2 += 'After the first 3 months, the tenant may terminate this agreement by providing at least 1 (one) calendar month written notice. In such case, the security deposit will be refunded under the standard conditions of Article 4. During the first 3 months, the tenant may not terminate early and the deposit will not be refunded if the tenant moves out.';
+                a2 += 'After the first 4 months, the tenant may terminate this agreement by providing at least 1 (one) calendar month written notice. In such case, the security deposit will be refunded under the standard conditions of Article 4. During the first 4 months, the tenant may not terminate early and the deposit will not be refunded if the tenant moves out.';
             } else {
                 a2 += 'In case tenant wants to move out before the end of the contract, the deposit will not be refunded.';
             }
@@ -691,7 +691,7 @@
             addText('Article 3. The rent of the room is ' + fmt(data.rent) + ' Euros per month. Which includes the cost of gas, electricity, water, Internet and furniture in the room.');
             var a4 = 'Article 4. Security Deposit: ' + fmt(data.deposit) + ' Euros. Refunded after end of contract if no damage. Refund may take up to 30 days. ';
             if (data.earlyExit) {
-                a4 += 'If tenant terminates early following the notice procedure described in Article 2, the deposit will be refunded under standard conditions. If tenant moves out without proper notice during the first 3 months, the deposit is not refunded.';
+                a4 += 'If tenant terminates early following the notice procedure described in Article 2, the deposit will be refunded under standard conditions. If tenant moves out without proper notice during the first 4 months, the deposit is not refunded.';
             } else {
                 a4 += 'If tenant moves out early, deposit is not refunded.';
             }
