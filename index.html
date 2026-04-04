@@ -416,6 +416,17 @@
                         <input type="number" id="booking-input" value="500" min="0" style="display:none;">
                     </div>
                     <div class="form-group">
+                        <div class="toggle-row">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="earlyexit-toggle" onchange="toggleEarlyExit()">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span class="toggle-label">Early Exit Clause</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
                         <label>Duration</label>
                         <select id="duration-select">
                             <option value="3">3 months</option>
@@ -472,13 +483,13 @@
 
                     <p><strong>Article 1.</strong> Renter lets out for personal use a room on the apartment in: <strong><span class="dynamic-field" id="preview-address">H. Cleyndertweg, Amsterdam Noord</span></strong>. This includes also the use of the kitchen, shower and toilet.</p>
 
-                    <p><strong>Article 2.</strong> The agreement has been made for the period from <strong><span class="dynamic-field" id="preview-start">-</span></strong> to <strong><span class="dynamic-field" id="preview-end">-</span></strong>. The tenant is responsible for paying the rent during this period. In case tenant wants to move out before the end of the contract, the deposit will not be refunded. The Renter can give immediate notice to the tenant to move out in case of any trouble.</p>
+                    <p><strong>Article 2.</strong> The agreement has been made for the period from <strong><span class="dynamic-field" id="preview-start">-</span></strong> to <strong><span class="dynamic-field" id="preview-end">-</span></strong>. The tenant is responsible for paying the rent during this period. <span id="preview-earlyexit-off">In case tenant wants to move out before the end of the contract, the deposit will not be refunded.</span><span id="preview-earlyexit-on" style="display:none;">After the first 3 months, the tenant may terminate this agreement by providing at least 1 (one) calendar month written notice. In such case, the security deposit will be refunded under the standard conditions of Article 4. During the first 3 months, the tenant may not terminate early and the deposit will not be refunded if the tenant moves out.</span> The Renter can give immediate notice to the tenant to move out in case of any trouble.</p>
 
                     <h3>B. Rent and Related Living Costs</h3>
 
                     <p><strong>Article 3.</strong> The rent of the room is <span class="dynamic-field" id="preview-rent">1,390 Euros per month</span>. Which includes the cost of gas, electricity, water, Internet and furniture in the room.</p>
 
-                    <p><strong>Article 4.</strong> Security Deposit: <span class="dynamic-field" id="preview-deposit">2,000 Euros</span>. Refunded after end of contract if no damage. Refund may take up to 30 days. If tenant moves out early, deposit is not refunded.</p>
+                    <p><strong>Article 4.</strong> Security Deposit: <span class="dynamic-field" id="preview-deposit">2,000 Euros</span>. Refunded after end of contract if no damage. Refund may take up to 30 days. <span id="preview-deposit-earlyexit-off">If tenant moves out early, deposit is not refunded.</span><span id="preview-deposit-earlyexit-on" style="display:none;">If tenant terminates early following the notice procedure described in Article 2, the deposit will be refunded under standard conditions. If tenant moves out without proper notice during the first 3 months, the deposit is not refunded.</span></p>
 
                     <p><strong>Article 5.</strong> Rent paid in advance on the 30th of every month. Penalty of 50 EUR per day of delay.</p>
 
@@ -543,7 +554,10 @@
             document.getElementById('booking-toggle').checked = getParam('booking_enabled', '0') === '1';
             document.getElementById('booking-input').value = getParam('booking', '500');
             toggleBooking();
-            
+
+            document.getElementById('earlyexit-toggle').checked = getParam('early_exit', '0') === '1';
+            toggleEarlyExit();
+
             const dur = getParam('duration', '12');
             for (let o of document.getElementById('duration-select').options) { if (o.value === dur) o.selected = true; }
             if (dur === 'custom') {
@@ -554,6 +568,15 @@
             updateAll();
         }
         
+        function toggleEarlyExit() {
+            const e = document.getElementById('earlyexit-toggle').checked;
+            document.getElementById('preview-earlyexit-on').style.display = e ? 'inline' : 'none';
+            document.getElementById('preview-earlyexit-off').style.display = e ? 'none' : 'inline';
+            document.getElementById('preview-deposit-earlyexit-on').style.display = e ? 'inline' : 'none';
+            document.getElementById('preview-deposit-earlyexit-off').style.display = e ? 'none' : 'inline';
+            updateAll();
+        }
+
         function toggleBooking() {
             const e = document.getElementById('booking-toggle').checked;
             document.getElementById('booking-input').style.display = e ? 'block' : 'none';
@@ -656,10 +679,23 @@
             addText('A. Living Accommodation', true);
             addText('This is a private agreement with the sole purpose of personal usage of an accommodation in a determined living space. This is not intended to be used for personal procedures in public or private Databases neither related to permanent residency of any kind since the tenant is only requesting a temporary accommodation and will be granted with just that.');
             addText('Article 1. Renter lets out for personal use a room on the apartment in: ' + data.address + '. This includes also the use of the kitchen, shower and toilet.');
-            addText('Article 2. The agreement has been made for the period from ' + data.startStr + ' to ' + data.endStr + '. The tenant is responsible for paying the rent during this period. In case tenant wants to move out before the end of the contract, the deposit will not be refunded. The Renter can give immediate notice to the tenant to move out in case of any trouble.');
+            var a2 = 'Article 2. The agreement has been made for the period from ' + data.startStr + ' to ' + data.endStr + '. The tenant is responsible for paying the rent during this period. ';
+            if (data.earlyExit) {
+                a2 += 'After the first 3 months, the tenant may terminate this agreement by providing at least 1 (one) calendar month written notice. In such case, the security deposit will be refunded under the standard conditions of Article 4. During the first 3 months, the tenant may not terminate early and the deposit will not be refunded if the tenant moves out.';
+            } else {
+                a2 += 'In case tenant wants to move out before the end of the contract, the deposit will not be refunded.';
+            }
+            a2 += ' The Renter can give immediate notice to the tenant to move out in case of any trouble.';
+            addText(a2);
             addText('B. Rent and Related Living Costs', true);
             addText('Article 3. The rent of the room is ' + fmt(data.rent) + ' Euros per month. Which includes the cost of gas, electricity, water, Internet and furniture in the room.');
-            addText('Article 4. Security Deposit: ' + fmt(data.deposit) + ' Euros. Refunded after end of contract if no damage. Refund may take up to 30 days. If tenant moves out early, deposit is not refunded.');
+            var a4 = 'Article 4. Security Deposit: ' + fmt(data.deposit) + ' Euros. Refunded after end of contract if no damage. Refund may take up to 30 days. ';
+            if (data.earlyExit) {
+                a4 += 'If tenant terminates early following the notice procedure described in Article 2, the deposit will be refunded under standard conditions. If tenant moves out without proper notice during the first 3 months, the deposit is not refunded.';
+            } else {
+                a4 += 'If tenant moves out early, deposit is not refunded.';
+            }
+            addText(a4);
             addText('Article 5. Rent paid in advance on the 30th of every month. Penalty of 50 EUR per day of delay.');
             addText('C. Obligations', true);
             addText('Article 6. Renter provides room in clean state with no defects.');
@@ -812,7 +848,8 @@
                 deposit: document.getElementById('deposit-input').value,
                 booking: bEn ? document.getElementById('booking-input').value : '0',
                 address: 'H. Cleyndertweg, Amsterdam Noord',
-                startStr: formatDateShort(sd), endStr: formatDateShort(ed)
+                startStr: formatDateShort(sd), endStr: formatDateShort(ed),
+                earlyExit: document.getElementById('earlyexit-toggle').checked
             };
             
             const btn = document.getElementById('submit-btn');
